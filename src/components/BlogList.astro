@@ -7,7 +7,7 @@ const posts = (await getCollection("blogCollection")).sort(
 );
 ---
 
-<section>
+<section class="blog-list">
   <ul>
     {
       posts.map((post) => (
@@ -26,7 +26,10 @@ const posts = (await getCollection("blogCollection")).sort(
 </section>
 
 <style>
-
+  .blog-list {
+    container-type: inline-size;
+    container-name: blog-list;
+  }
   ul {
     display: flex;
     flex-wrap: wrap;
@@ -36,22 +39,17 @@ const posts = (await getCollection("blogCollection")).sort(
     padding: 0;
   }
   ul li {
-    width: calc(50% - 1rem);
+    width: 100%;
   }
   ul li * {
     text-decoration: none;
     transition: 0.2s ease;
   }
   ul li:first-child {
-    width: 100%;
-    margin-bottom: 1rem;
     text-align: center;
   }
   ul li:first-child img {
     width: 100%;
-  }
-  ul li:first-child .title {
-    font-size: 2.369rem;
   }
   ul li img {
     margin-bottom: 0.5rem;
@@ -76,19 +74,17 @@ const posts = (await getCollection("blogCollection")).sort(
   ul a:hover img {
     box-shadow: var(--box-shadow);
   }
-  @media (max-width: 720px) {
-    ul {
-      gap: 0.5em;
-    }
+
+  @container blog-list (min-width: 40em) {
     ul li {
-      width: 100%;
-      text-align: center;
+      width: calc(50% - 1rem);
     }
     ul li:first-child {
-      margin-bottom: 0;
+      width: 100%;
+      margin-bottom: 1rem;
     }
     ul li:first-child .title {
-      font-size: 1.563em;
+      font-size: 2.369rem;
     }
   }
 </style>
