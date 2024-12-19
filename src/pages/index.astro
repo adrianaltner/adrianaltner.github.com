@@ -1,0 +1,22 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import { SITE } from '../site.config.ts';
+
+const meta = {
+	title: SITE.title,
+	description: SITE.description,
+};
+
+---
+
+<Layout {meta}>
+	<h1>Wellcome</h1>
+</Layout>
+
+
+<style>
+	h1 {
+		margin: 2rem 0;
+		text-align: center;
+	}
+</style>

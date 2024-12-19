@@ -1,0 +1,15 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+
+const {meta = {}} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead {...meta} />
+	</head>
+	<body>
+        <slot />
+	</body>
+</html>

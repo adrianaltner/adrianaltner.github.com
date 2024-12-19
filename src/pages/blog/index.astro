@@ -1,0 +1,14 @@
+---
+import Layout from '~/layouts/BlogLayout.astro';
+import BlogList from '~/components/BlogList.astro';
+import { SITE } from '~/site.config';
+
+const meta = {
+  title: "Blog | " + SITE.title,
+  description: "Blog",
+};
+---
+
+<Layout {meta}>
+	<BlogList />
+</Layout>
