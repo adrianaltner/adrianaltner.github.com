@@ -3,10 +3,12 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "predev": "node scripts/rename-blog-files.js",
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "rename-blog": "node scripts/rename-blog-files.js"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.2",

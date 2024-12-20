@@ -1,4 +1,4 @@
-# [adrianaltner.com](https://adrianaltner.com)
+# [adrianaltner.github.io](https://adrianaltner.github.io)
 
 > Personal website of Adrian Altner
 
