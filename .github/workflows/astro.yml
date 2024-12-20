@@ -6,8 +6,9 @@ name: Deploy Astro site to Pages
 
 on:
 
+  # Run once per day at midnight
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "0 0 * * *"
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
