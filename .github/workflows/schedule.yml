@@ -1,5 +1,5 @@
 # Workflow for building and deploying an Astro site to GitHub Pages
-name: Schedule to run every 5 minutes
+name: Schedule to run once a week
 
 on:
   # Schedule to run once a week
