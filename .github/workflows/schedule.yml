@@ -2,9 +2,9 @@
 name: Schedule to run every 5 minutes
 
 on:
-  # Schedule to run every 5 minutes
+  # Schedule to run once a week
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "0 0 * * 1"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
