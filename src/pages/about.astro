@@ -1,19 +1,23 @@
 ---
 import Layout from "~/layouts/PageLayout.astro";
+import { Image } from 'astro:assets';
 import FormattedDate from "~/components/FormattedDate.astro";
 const meta = {
   title: "About",
   description: "About",
   pubDate: new Date("August 08 2021"),
   // updatedDate: new Date("August 08 2021"),
-  heroImage: "src/assets/images/blog-placeholder-about.jpg",
 };
+
+import heroImage from "~/assets/images/blog-placeholder-about.jpg";
+
+
 ---
 
 <Layout {meta}>
   <article>
     <div class="hero-image">
-      {meta.heroImage && <img width={1020} height={510} src={ meta.heroImage} alt="" />}
+      {heroImage && <Image width={1020} height={510} src={ heroImage} alt="" />}
     </div>
     <div class="prose">
       <div class="title">
