@@ -4,5 +4,5 @@ export const SITE = {
 	basePathname: '/',
 	title: 'Adrian Altner',
 	description: 'Full-Time Multi-Hyphenater & Enthusiast of the Ascetic Lifestyle',
-	blogPostsPerPage: 10,
+	blogPostsPerPage: 5,
 };

@@ -1,20 +1,40 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
+import { type CollectionEntry, getCollection, getEntry } from 'astro:content';
 import Layout from '~/layouts/PageLayout.astro';
 import Post from '~/components/BlogPost.astro';
 import { render } from 'astro:content';
 
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blogCollection');
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
-	}));
-}
-type Props = CollectionEntry<'blogCollection'>;
+	const posts = await getCollection('blog');
+	const sortedPosts = posts.sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+	
+	return Promise.all(
+		sortedPosts.map(async (post, index) => {
+			// Resolve related posts if they exist
+			const relatedPosts = await Promise.all(
+				post.data.related?.map(reference => getEntry(reference)) || []
+			);
 
-const post = Astro.props;
+			return {
+				params: { slug: post.id },
+				props: {
+					...post,
+					next: index + 1 < sortedPosts.length ? sortedPosts[index + 1] : undefined,
+					prev: index > 0 ? sortedPosts[index - 1] : undefined,
+					relatedPosts,
+				},
+			};
+		})
+	);
+}
+type Props = CollectionEntry<'blog'> & {
+	next?: CollectionEntry<'blog'>;
+	prev?: CollectionEntry<'blog'>;
+	relatedPosts?: CollectionEntry<'blog'>[];
+};
+
+const { next, prev, relatedPosts, ...post } = Astro.props;
 const { Content } = await render(post);
 
 const meta = {
@@ -25,7 +45,12 @@ const meta = {
 ---
 
 <Layout {meta}>
-<Post {...post.data}>
+<Post 
+  post={post}
+  next={next}
+  prev={prev}
+  relatedPosts={relatedPosts}
+>
 	<Content />
 </Post>
 </Layout>

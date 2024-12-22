@@ -1,0 +1,52 @@
+---
+import type { Page } from 'astro';
+
+interface Props {
+  page: Page;
+}
+
+const { page } = Astro.props;
+---
+
+<nav class="pagination">
+  {page.url.prev && (
+    <a href={page.url.prev} class="pagination__link">
+      &larr; Previous
+    </a>
+  )}
+  <span class="pagination__status">
+    Page {page.currentPage} of {page.lastPage}
+  </span>
+  {page.url.next && (
+    <a href={page.url.next} class="pagination__link">
+      Next &rarr;
+    </a>
+  )}
+</nav>
+
+<style>
+  .pagination {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+  }
+
+  .pagination__link {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s;
+  }
+
+  .pagination__link:hover {
+    background-color: #f5f5f5;
+  }
+
+  .pagination__status {
+    color: #666;
+  }
+</style>
