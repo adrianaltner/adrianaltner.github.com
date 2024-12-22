@@ -6,44 +6,47 @@ import { Image } from 'astro:assets';
 import { SITE } from '~/site.config';
 import type { Page, GetStaticPaths } from 'astro';
 import type { CollectionEntry } from 'astro:content';
-import { getCollection } from 'astro:content';
-
-const meta = {
-  title: "Blog | " + SITE.title,
-  description: "Blog",
-};
-
-export const getStaticPaths = (async ({ paginate }) => {
-  const posts = (await getCollection("blog")).sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-  );
-  
-  // Always generate at least one page, even if there are no posts
-  return paginate(posts, { 
-    pageSize: SITE.blogPostsPerPage,
-    props: { showEmpty: posts.length === 0 }
-  });
-}) satisfies GetStaticPaths;
+import { getCollection, render} from 'astro:content';
 
 interface Props {
   page: Page<CollectionEntry<'blog'>>;
-  showEmpty: boolean;
+  entry: CollectionEntry<'tags'>;
+}
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const tags = await getCollection("tags");
+  const posts = (await getCollection("blog")).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+
+  return tags.flatMap((entry) => {
+    const tagPosts = posts.filter((post) =>
+      post.data.tags?.includes(entry.id)
+    );
+    return paginate(tagPosts, {
+      pageSize: SITE.blogPostsPerPage,
+      params: { tag: entry.id },
+      props: { entry },
+    });
+  });
+}) satisfies GetStaticPaths;
+
+const { page, entry } = Astro.props;
+const { Content } = await render(entry);
+
+const meta = {
+  title: entry.data.title + " | Blog | " + SITE.title,
+  description: entry.data.description || "Blog posts with Tag " + entry.data.title,
 };
-
-const { page, showEmpty } = Astro.props;
-
-
-
 ---
 
 <Layout {meta}>
-  <div id="Categories">
-
+  <div class="category-header">
+    <Content />
   </div>
-
   <section class="blog-list">
-    {showEmpty ? (
-      <p>No blog posts yet. Check back soon!</p>
+    {page.data.length === 0 ? (
+      <p>No blog posts yet in this category. Check back soon!</p>
     ) : (
     <ul>
       {
@@ -73,6 +76,14 @@ const { page, showEmpty } = Astro.props;
 </Layout>
 
 <style>
+  .category-header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .category-header h1 {
+    margin: 0;
+    font-size: 2.369rem;
+  }
   .blog-list {
     container-type: inline-size;
     container-name: blog-list;
@@ -120,46 +131,6 @@ const { page, showEmpty } = Astro.props;
   }
   ul a:hover img {
     box-shadow: var(--box-shadow);
-  }
-
-  #Categories {
-    margin-bottom: 2rem;
-  }
-
-  #Categories h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  #Categories ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  #Categories li {
-    margin: 0;
-  }
-
-  #Categories a {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    background: var(--gray-100, #f3f4f6);
-    color: var(--gray-700, #374151);
-    text-decoration: none;
-    transition: all 0.2s ease;
-  }
-
-  #Categories a:hover {
-    background: var(--gray-200, #e5e7eb);
-  }
-
-  #Categories a.active {
-    background: var(--gray-700, #374151);
-    color: white;
   }
 
   @container blog-list (min-width: 40em) {
