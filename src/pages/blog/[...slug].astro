@@ -2,6 +2,7 @@
 import { type CollectionEntry, getCollection, getEntry } from 'astro:content';
 import Layout from '~/layouts/PageLayout.astro';
 import Post from '~/components/BlogPost.astro';
+import PostImage from '~/components/Image.astro';
 import { render } from 'astro:content';
 
 
@@ -50,6 +51,6 @@ const meta = {
   next={next}
   prev={prev}
 >
-	<Content />
+<Content components={{ img: PostImage }} />
 </Post>
 </Layout>

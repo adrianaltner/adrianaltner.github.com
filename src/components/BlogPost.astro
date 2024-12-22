@@ -20,7 +20,7 @@ const relatedPosts = related ? await Promise.all(related.map(ref => getEntry('bl
 
 <article>
   <div class="hero-image">
-    {heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
+    {heroImage && <Image width={1020} height={510} src={heroImage} format="avif" alt="" />}
   </div>
   <div class="prose">
     <div class="title">

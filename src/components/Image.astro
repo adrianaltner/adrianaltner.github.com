@@ -1,0 +1,36 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image as PostImage } from 'astro:assets';
+ 
+type Props = {
+  src: string | ImageMetadata;
+  // src will be ImageMetadata type in case you use an image from your content and string in case you use some external image
+  alt: string;
+};
+ 
+const { src, alt } = Astro.props;
+---
+ 
+
+
+<figure>
+  {
+    typeof src === 'string' ? (
+      <img src={src} alt={alt} />
+    ) : (
+      <PostImage {src} {alt} format="avif" quality={80} />
+    )
+  }
+  {alt && <figcaption>{alt}</figcaption>}
+</figure>
+
+
+<style>
+  img {
+    border-radius: 3rem; /* equivalent to rounded-3xl */
+  }
+  
+  figcaption {
+    text-align: center;
+  }
+</style>

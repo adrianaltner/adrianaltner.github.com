@@ -67,47 +67,6 @@ const tags = [...new Set(posts.flatMap(post => post.data.tags))].sort();
     </div>
   </div>
 
-  <style>
-    .taxonomy-section {
-      margin-bottom: 2rem;
-    }
-
-    .taxonomy-section h2 {
-      font-size: 1.25rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-
-    .taxonomy-items {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .taxonomy-link {
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-      font-size: 0.875rem;
-      transition: background-color 0.2s;
-      text-decoration: none;
-    }
-
-    .taxonomy-link.category {
-      background-color: #f3f4f6;
-    }
-
-    .taxonomy-link.category:hover {
-      background-color: #e5e7eb;
-    }
-
-    .taxonomy-link.tag {
-      background-color: #eff6ff;
-    }
-
-    .taxonomy-link.tag:hover {
-      background-color: #dbeafe;
-    }
-  </style>
 
   <section class="blog-list">
     {showEmpty ? (
@@ -124,6 +83,8 @@ const tags = [...new Set(posts.flatMap(post => post.data.tags))].sort();
                   height={360} 
                   src={post.data.heroImage} 
                   alt="" 
+                  format="avif"
+                  quality={80}
                 />
               )}
               <h4 class="title">{post.data.title}</h4>
@@ -202,4 +163,44 @@ const tags = [...new Set(posts.flatMap(post => post.data.tags))].sort();
       font-size: 2.369rem;
     }
   }
+
+  .taxonomy-section {
+      margin-bottom: 2rem;
+    }
+
+    .taxonomy-section h2 {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .taxonomy-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .taxonomy-link {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      transition: background-color 0.2s;
+      text-decoration: none;
+    }
+
+    .taxonomy-link.category {
+      background-color: #f3f4f6;
+    }
+
+    .taxonomy-link.category:hover {
+      background-color: #e5e7eb;
+    }
+
+    .taxonomy-link.tag {
+      background-color: #eff6ff;
+    }
+
+    .taxonomy-link.tag:hover {
+      background-color: #dbeafe;
+    }
 </style>
