@@ -24,6 +24,7 @@ const relatedPosts = related ? await Promise.all(related.map(ref => getEntry('bl
   </div>
   <div class="prose">
     <div class="title">
+      // TODO: Author
       <div>
         {categoryName && <a href={`/blog/categories/${categoryName.id}`}>{categoryName.data.title}</a>}
       </div>

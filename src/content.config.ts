@@ -10,9 +10,6 @@ const blog = defineCollection({
 		pubDate: z.coerce.date(),
 		updatedDate: z.coerce.date().optional(),
 		heroImage: image().optional(),
-		// TODO: Add support for images and layout
-		// image: z.string().optional(),
-		// layout: z.string().optional(),
 		tags: z.array(z.string()).default(["notags"]),
 		category: reference('categories'),
 		related: z.array(reference('blog')).optional(),
@@ -24,9 +21,8 @@ const categories = defineCollection({
 	schema: z.object({
 		title: z.string(),
 		description: z.string(),
-		// TODO: Add support for images and layout
+		// TODO: Add support for images
 		// image: z.string().optional(),
-		// layout: z.string().optional(),
 	}),
 });
 
@@ -35,9 +31,8 @@ const tags = defineCollection({
 	schema: z.object({
 		title: z.string(),
 		description: z.string(),
-		// TODO: Add support for images and layout
+		// TODO: Add support images
 		// image: z.string().optional(),
-		// layout: z.string().optional(),
 	}),
 });
 
