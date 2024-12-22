@@ -15,17 +15,17 @@ interface Props {
 
 export const getStaticPaths = (async ({ paginate }) => {
   const tags = await getCollection("tags");
-  console.log('Tags:', tags);
+  // console.log('Tags:', tags);
   const posts = (await getCollection("blog")).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   );
-  console.log('All Posts:', posts);
+  // console.log('All Posts:', posts);
 
   return tags.flatMap((entry) => {
     const tagPosts = posts.filter((post) =>
       post.data.tags?.some(tag => tag.id === entry.id)
     );
-    console.log(`Posts for tag ${entry.data.title}:`, tagPosts);
+    // console.log(`Posts for tag ${entry.data.title}:`, tagPosts);
     return paginate(tagPosts, {
       pageSize: SITE.blogPostsPerPage,
       params: { tag: entry.id },
