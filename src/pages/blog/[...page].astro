@@ -32,14 +32,82 @@ interface Props {
 
 const { page, showEmpty } = Astro.props;
 
-
+const categories = await getCollection('categories');
+const posts = await getCollection('blog');
+const tags = [...new Set(posts.flatMap(post => post.data.tags))].sort();
 
 ---
 
 <Layout {meta}>
-  <div id="Categories">
-
+  <div id="Categories" class="taxonomy-section">
+    <h2>Categories</h2>
+    <div class="taxonomy-items">
+      {categories.map((category) => (
+        <a
+          href={`/blog/categories/${category.id}`}
+          class="taxonomy-link category"
+        >
+          {category.data.title || category.id}
+        </a>
+      ))}
+    </div>
   </div>
+
+  <div id="Tags" class="taxonomy-section">
+    <h2>Tags</h2>
+    <div class="taxonomy-items">
+      {tags.map((tag) => (
+        <a
+          href={`/blog/tags/${tag}`}
+          class="taxonomy-link tag"
+        >
+          #{tag}
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <style>
+    .taxonomy-section {
+      margin-bottom: 2rem;
+    }
+
+    .taxonomy-section h2 {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .taxonomy-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .taxonomy-link {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      transition: background-color 0.2s;
+      text-decoration: none;
+    }
+
+    .taxonomy-link.category {
+      background-color: #f3f4f6;
+    }
+
+    .taxonomy-link.category:hover {
+      background-color: #e5e7eb;
+    }
+
+    .taxonomy-link.tag {
+      background-color: #eff6ff;
+    }
+
+    .taxonomy-link.tag:hover {
+      background-color: #dbeafe;
+    }
+  </style>
 
   <section class="blog-list">
     {showEmpty ? (
@@ -120,46 +188,6 @@ const { page, showEmpty } = Astro.props;
   }
   ul a:hover img {
     box-shadow: var(--box-shadow);
-  }
-
-  #Categories {
-    margin-bottom: 2rem;
-  }
-
-  #Categories h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  #Categories ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  #Categories li {
-    margin: 0;
-  }
-
-  #Categories a {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    background: var(--gray-100, #f3f4f6);
-    color: var(--gray-700, #374151);
-    text-decoration: none;
-    transition: all 0.2s ease;
-  }
-
-  #Categories a:hover {
-    background: var(--gray-200, #e5e7eb);
-  }
-
-  #Categories a.active {
-    background: var(--gray-700, #374151);
-    color: white;
   }
 
   @container blog-list (min-width: 40em) {
