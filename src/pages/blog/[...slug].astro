@@ -34,7 +34,7 @@ type Props = CollectionEntry<'blog'> & {
 	relatedPosts?: CollectionEntry<'blog'>[];
 };
 
-const { next, prev, relatedPosts, ...post } = Astro.props;
+const { next, prev, ...post } = Astro.props;
 const { Content } = await render(post);
 
 const meta = {
@@ -49,7 +49,6 @@ const meta = {
   post={post}
   next={next}
   prev={prev}
-  relatedPosts={relatedPosts}
 >
 	<Content />
 </Post>
