@@ -1,6 +1,7 @@
 import { glob } from 'astro/loaders';
 import { defineCollection, reference, z } from 'astro:content';
 
+
 const blog = defineCollection({
 	loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx}' }),
 	schema: ({ image }) => z.object({
@@ -12,8 +13,8 @@ const blog = defineCollection({
 		// TODO: Add support for images and layout
 		// image: z.string().optional(),
 		// layout: z.string().optional(),
-		tags: z.array(reference('tags')).optional(),
-		category: reference('categories').optional(),
+		tags: z.array(z.string()).default(["notags"]),
+		category: reference('categories'),
 		related: z.array(reference('blog')).optional(),
 	}),
 });
