@@ -1,0 +1,105 @@
+---
+import { Image } from 'astro:assets';
+import FormattedDate from "./FormattedDate.astro";
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+---
+
+<li>
+  <a href={`/blog/${post.id}/`}>
+    {post.data.heroImage && (
+      <Image 
+        width={720} 
+        height={360} 
+        src={post.data.heroImage} 
+        alt="" 
+        format="avif"
+        quality={80}
+      />
+    )}
+    <h4 class="title">{post.data.title}</h4>
+    <p class="description">{post.data.description}</p>
+    {post.data.category && <p class="category">{post.data.category.id.charAt(0).toUpperCase() + post.data.category.id.slice(1)}</p>}
+    <p class="date">
+      <FormattedDate date={post.data.pubDate} />
+    </p>
+    {post.data.updatedDate && (
+      <div class="updated">
+        <span class="update-label">🔄</span>
+        Updated <FormattedDate date={post.data.updatedDate} />
+      </div>
+    )}
+  </a>
+</li>
+
+<style>
+  li {
+    width: 100%;
+  }
+  li * {
+    text-decoration: none;
+    transition: 0.2s ease;
+  }
+  li:first-child {
+    text-align: center;
+  }
+  li:first-child img {
+    width: 100%;
+  }
+  li img {
+    margin-bottom: 0.5rem;
+    border-radius: 12px;
+  }
+  li a {
+    display: block;
+  }
+  .title {
+    margin: 0;
+    color: rgb(var(--black));
+    line-height: 1;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .description {
+    margin: 0;
+    color: rgb(var(--gray));
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+  .category {
+    margin: 0;
+    color: rgb(var(--accent));
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+  }
+  .date {
+    margin: 0;
+    color: rgb(var(--gray));
+    font-size: 0.9rem;
+  }
+  a:hover .title,
+  a:hover .date {
+    color: rgb(var(--accent));
+  }
+  a:hover img {
+    box-shadow: var(--box-shadow);
+  }
+
+  @container blog-list (min-width: 40em) {
+    li {
+      width: calc(50% - 1rem);
+    }
+    li:first-child {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    li:first-child .title {
+      font-size: 2.369rem;
+    }
+  }
+</style>

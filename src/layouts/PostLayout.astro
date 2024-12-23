@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { Image } from 'astro:assets';
-import FormattedDate from "./FormattedDate.astro";
+import FormattedDate from "~/components/FormattedDate.astro";
 import { getEntry } from 'astro:content';
 
 type Props = {
@@ -23,23 +23,29 @@ const relatedPosts = related ? await Promise.all(related.map(ref => getEntry('bl
     {heroImage && <Image width={1020} height={510} src={heroImage} format="avif" alt="" />}
   </div>
   <div class="prose">
-    <div class="title">
-      // TODO: Author
-      <div>
-        {categoryName && <a href={`/blog/categories/${categoryName.id}`}>{categoryName.data.title}</a>}
-      </div>
-      <div class="date">
-        <FormattedDate date={pubDate} />
-        {
-          updatedDate && (
-            <div class="last-updated-on">
-              Last updated on <FormattedDate date={updatedDate} />
+    <div class="post-header">
+      <div class="post-meta">
+        {categoryName && (
+          <div class="category">
+            <a href={`/blog/category/${categoryName.id}`}>
+              <span class="category-label">📂</span>
+              {categoryName.data.title}
+            </a>
+          </div>
+        )}
+        <div class="date-info">
+          <time datetime={pubDate.toISOString()}>
+            <FormattedDate date={pubDate} />
+          </time>
+          {updatedDate && (
+            <div class="updated">
+              <span class="update-label">🔄</span>
+              Updated <FormattedDate date={updatedDate} />
             </div>
-          )
-        }
+          )}
+        </div>
       </div>
       <h1>{title}</h1>
-      <hr />
     </div>
     <slot />
   </div>
@@ -103,24 +109,63 @@ const relatedPosts = related ? await Promise.all(related.map(ref => getEntry('bl
     color: rgb(var(--gray-dark));
   }
 
-  .title {
-    margin-bottom: 1em;
-    padding: 1em 0;
+  .post-header {
     text-align: center;
-    line-height: 1;
-
-    & h1 {
-      margin: 0 0 0.5em 0;
-    }
+    margin-bottom: 2.5rem;
   }
 
-  .date {
-    margin-bottom: 0.5em;
+  .post-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.925rem;
+  }
+
+  .category a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.4em 0.8em;
+    background: rgba(var(--accent), 0.1);
+    border-radius: 2em;
+    color: rgb(var(--accent));
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .category a:hover {
+    background: rgba(var(--accent), 0.15);
+    transform: translateY(-1px);
+  }
+
+  .date-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     color: rgb(var(--gray));
   }
 
-  .last-updated-on {
-    font-style: italic;
+  .date-info time {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+  }
+
+  .updated {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    font-size: 0.875em;
+    opacity: 0.8;
+  }
+
+  h1 {
+    margin: 0;
+    font-weight: 700;
+    line-height: 1.3;
+    color: rgb(var(--accent));
   }
 
   .post-navigation {
@@ -220,6 +265,13 @@ const relatedPosts = related ? await Promise.all(related.map(ref => getEntry('bl
 
   .related-post-item a:hover {
     color: #2b6cb0;
+  }
+
+  @media (max-width: 720px) {
+    .post-meta {
+      flex-direction: column;
+      gap: 0.8rem;
+    }
   }
 
   @media (max-width: 1280px) {
